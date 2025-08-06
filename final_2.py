@@ -12,13 +12,14 @@ with open(output_file, "w") as f:
 	for cmd in commands:   
 		f.write(f"  {cmd}\n")  # 不使用双引号 
 	f.write(")\n\n")            
-echo 开始随机执行命令（每条运行5秒），按 Ctrl+C 停止...                                                                 
+              #写入随机执行命令代码
+	f.write("""                                                   
 while true; do                                                                                                              
 	#随机选择一条命令                                                                                                      
- 	random_cmd="${commands[$RANDIM % ${#commands[@]}]}"                                                                    
+ 	random_cmd="${commands[$RANDOM % ${#commands[@]}]}"                                                                    
  	echo "执行命令: $random_cmd (持续5秒)"                                                                                
-  #启动命令并在后台运行                                                                                                  
- 	eval "$random_cmd" &                                                                                                   
+  	#启动命令并在后台运行                                                                                                  
+ 	#eval "$random_cmd" &                                                                                                   
  	cmd_pid=$!                                                                                                             
  	#让命令运行5秒后强制停止                                                                                                
 	sleep 5                                                                                                                 
@@ -26,3 +27,5 @@ while true; do
 	wait $cmd_pid 2>/dev/null #避免僵尸进程                                                                                
 	echo "-----------------"                                                                                            
 done
+""")
+print(f"新脚本文件已生成：{output_file}")
